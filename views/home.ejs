@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="bg-gray-800 text-white w-64 p-4">
+            <div class="text-2xl font-semibold mb-4">Home</div>
+            <nav>
+                <ul>
+                    <li class="mb-2">
+                        <a href="/dashboard" class="block py-2 px-4 rounded hover:bg-gray-700">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="/Settings" class="block py-2 px-4 rounded hover:bg-gray-700">
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <!-- Header -->
+
+            <!-- Content Area -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Widgets or Cards -->
+                <div class="bg-white p-4 shadow-md rounded-md">
+                    <h2 class="text-xl font-semibold mb-2">Widget 1</h2>
+                    <p>Content for widget 1</p>
+                </div>
+                <div class="bg-white p-4 shadow-md rounded-md">
+                    <h2 class="text-xl font-semibold mb-2">Widget 2</h2>
+                    <p>Content for widget 2</p>
+                </div>
+                <div class="bg-white p-4 shadow-md rounded-md">
+                    <h2 class="text-xl font-semibold mb-2">Widget 3</h2>
+                    <p>Content for widget 3</p>
+                </div>
+                <!-- ... more widgets -->
+            </section>
+        </main>
+    </div>
+</body>
+</html>
