@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Update Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white shadow-lg rounded-xl p-6 w-full max-w-md">
+        <h1 class="text-2xl font-semibold mb-4 text-center">Update Product</h1>
+
+        <form action="/update/<%= product._id %>" method="POST" class="space-y-4">
+
+            <div>
+                <label class="block mb-1 font-medium">Product Name</label>
+                <input type="text" name="name" value="<%= product.name %>" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"/>
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium">Price</label>
+                <input type="number" name="price" value="<%= product.price %>" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"/>
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium">Brand</label>
+                <input type="text" name="brand" value="<%= product.brand %>" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"/>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition">
+                Update Product
+            </button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="/dashboard" class="text-blue-500 hover:underline">Back to Dashboard</a>
+        </div>
+    </div>
+
+</body>
+</html>

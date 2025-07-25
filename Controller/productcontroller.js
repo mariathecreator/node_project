@@ -1,22 +1,32 @@
-import  {product}  from "../Model/productmodel.js";
-import {ObjectId} from 'mongodb'
+import { product } from "../Model/productmodel.js";
 
-const add=async(req,res)=>{
-    const into=await product.insertMany(req.body)
-    res.send(into)
+
+
+const addProduct = async (req, res) => {
+    const { name, price, brand } = req.body
+    const into = await product.create({ name, price, brand })
+    res.redirect('/dashboard')
+    console.log(into); 
 }
-const review =async(req,res)=>{
-    const wiew=await product.find()
-    res.send(wiew)
+
+const updateproduct= async(req,res)=>{
+ const find =await product.findById(req.params.id) 
+ res.render("productupdate",{product:find})
 }
-const update=async(req,res)=>{
-    const para=new ObjectId(req.params.id)
-    const updte=await product.findByIdAndUpdate({_id:para},{$set:req.body})
-    res.send(updte)
+
+const updatedProduct = async (req, res) => {
+    const {name,price,brand,description}=req.body
+    const updte = await product.findByIdAndUpdate(req.params.id,{name,price,brand,description},{new:true})
+    res.redirect('/dashboard')
 }
-const dele =async(req,res)=>{
-    const id =new ObjectId(req.params.id)
-    const trash= await product.deleteOne({_id:id})
-    res.send(trash)
+
+const deleteProduct = async (req, res) => {
+    const id = req.params.id
+    const trash = await product.findByIdAndDelete( id )
+    res.redirect('/dashboard')
+    console.log(trash);
+
+
 }
-export{add,review,update,dele}
+export { addProduct, updatedProduct, deleteProduct }
+export {updateproduct}

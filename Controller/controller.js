@@ -1,10 +1,11 @@
-import { adduser } from "../Model/adminuser.js"
 import { user } from "../Model/model.js"
+import { product } from "../Model/productmodel.js";
 
+import bcrypt from "bcrypt"
 
 const home = async (req, res) => {
-        return res.render('home')
-    }
+    return res.render('home')
+}
 
 const signup = async (req, res) => {
     res.render("signup")
@@ -19,20 +20,29 @@ const usermanage = async (req, res) => {
 const productadd = async (req, res) => {
     res.render("addproduct")
 }
-const update = async (req, res) => {
-    res.render("userupdate")
 
+const update = async (req, res) => {
+    try{
+        const edit = await user.findById(req.params.id)
+        res.render("userupdate", { user: edit })
+
+    }
+catch(err){
+    console.log(err);
+    
+}
 }
 
 const deletuser = async (req, res) => {
     const dat = req.params.id
     await user.findByIdAndDelete(dat)
-    res.redirect('/dashboard')
+   // res.redirect('/dashboard')
 }
 
 const dash = async (req, res) => {
     const dis = await user.find()
-    res.render("dashboard", { dis })
+    const dos = await product.find()
+    res.render("dashboard", { dis,dos })
 }
 
 export const logout = (req, res) => {
@@ -45,19 +55,43 @@ export const logout = (req, res) => {
 
 
 const register = async (req, res) => {
-    const insi = await user.insertOne(req.body);
+    const { name, email, password } = req.body
+    const hashed = await bcrypt.hash(password, 10)
+    const insert = new user({
+        name: name,
+        email: email,
+        password: hashed
+    })
+    await insert.save()
     res.redirect('/')
 }
+
 const userinsert = async (req, res) => {
-    const addu = await user.insertOne(req.body)
+    const { name, email, password } = req.body
+    const hashedpsw = await bcrypt.hash(password, 10)
+    const addu = new user({
+        name: name,
+        email: email,
+        password: hashedpsw
+    })
+    await addu.save()
     res.redirect('/dashboard')
 }
 
-const updateuser = async (req, res) => {
-    const id = req.params.id
-    const updte = await user.updateOne({ _id: id }, { $set: req.body })
-    console.log(updte);
 
+const updateuser = async (req, res) => {
+    try{
+
+        const { name, email, role } = req.body
+        const updte = await user.findByIdAndUpdate(req.params.id, { name, email,role },{new:true})
+        res.redirect('/dashboard')
+       
+        console.log(req.body);
+    }
+catch(err){
+    console.log(err);
+    
+}
 }
 
 const loginuser = async (req, res) => {
@@ -67,27 +101,27 @@ const loginuser = async (req, res) => {
 
 
         const check = await user.findOne({ email: email })
+
         console.log(check);
 
         if (!check) {
             return res.redirect('/')
         }
-        if (check.password !== password) {
+        const see = await bcrypt.compare(password, check.password)
+        if (!see) {
             return res.send('incorrect password')
         }
         if (check.role == false) {
-            res.send("bfhdg")
-            //res.redirect('/home')
+           return res.send("bfhdg")
+         // return  res.redirect('/home')
         }
         req.session.user = check
         res.redirect("/dashboard")
 
     }
     catch (err) {
-        res.send("hiiiii")
+        console.log("hiiiii")
     }
-    //const session=await db.collection('userSession').insertOne(req.body)
-
 }
 
 
