@@ -21,9 +21,8 @@
         <div class="flex justify-between items-center">
 
           <div class="flex items-center">
-            <a href="/logout"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">  Logout</button></a>
-            
-            
+            <a href="/logout"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                type="button"> Logout</button></a>
           </div>
         </div>
       </header>
@@ -67,31 +66,51 @@
             </thead>
             <tbody>
               <% dis.forEach(user=> { %>
-              <tr> 
-                  <td class="py-2 px-4 border-b"><%= user.name %></td>
-                  <td class="py-2 px-4 border-b"><%= user.email %></td>
-                  <td class="py-2 px-4 border-b "><%= user.role ? 'Admin' : 'User' %> </td>
+                <tr>
+                  <td class="py-2 px-4 border-b">
+                    <%= user.name %>
+                  </td>
+                  <td class="py-2 px-4 border-b">
+                    <%= user.email %>
+                  </td>
+                  <td class="py-2 px-4 border-b ">
+                    <%= user.role === true ? 'Admin' : 'User' %>
+                  </td>
+
+                  <td id="live" class="py-2 px-4 border-b">
+                    <% if (user.lastlogin&&(!user.lastlogout||user.lastlogin> user.lastlogout)) { %>
+                      <span class="text-green-500 font-semibold">Online</span>
+                      <% } else { %>
+                        <span class="text-gray-500">Offline</span>
+                        <% } %>
+                  </td>
 
                   <td class="py-1 px-4 border-b text-center space-x-2">
-                    <a href="/status/<%= user._id %>"
-                      class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm"><%= user.role?'Active':'Inactive' %></a>
+                    <% if (user.status==true){ %>
+                      <a href="/status/<%= user._id %>/disable"
+                        class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Disable</a>
+                      <% } else { %>
+                        <a href="/status/<%= user._id %>/enable"
+                          class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Enable</a>
+                        <% } %>
                   </td>
                   <td class="py-1 px-4 border-b text-center space-x-2">
                     <a href="/update/<%= user._id %>"
                       class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Edit</a>
-                    
-                    <a href="/delete/<%=user._id %>" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Delete</a>
-                  </td>
-              </tr>
-              <% } ) %>
 
-                <!-- Populate dynamically with backend data -->
+                    <a href="/delete/<%=user._id %>"
+                      class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Delete</a>
+                  </td>
+                </tr>
+                <% } ) %>
+
+                  <!-- Populate dynamically with backend data -->
             </tbody>
           </table>
         </div>
       </section>
 
-            <section class="bg-white p-4 rounded shadow col-span-1 lg:col-span-1 w-full">
+      <section class="bg-white p-4 rounded shadow col-span-1 lg:col-span-1 w-full">
 
         <div>
           <h2 class="text-xl font-semibold mb-4">Product Details</h2>
@@ -100,27 +119,38 @@
               <tr>
                 <th class="text-left py-2 px-4 border-b">Name</th>
                 <th class="text-left py-2 px-4 border-b">Price</th>
+                <th class="text-left py-2 px-4 border-b">Brand</th>
                 <th class="text-left py-2 px-4 border-b">Created at</th>
               </tr>
             </thead>
             <tbody>
-               <% dos.forEach(product=> { %>
-              <tr>
-                  <td class="py-2 px-4 border-b"><%= product.name %></td>
-                  <td class="py-2 px-4 border-b"><%= product.price %></td>
-                  <td class="py-2 px-4 border-b "><%= product.created_at.toDateString() %> </td>
+              <% dos.forEach(product=> { %>
+                <tr>
+                  <td class="py-2 px-4 border-b">
+                    <%= product.name %>
+                  </td>
+                  <td class="py-2 px-4 border-b">
+                    <%= product.price %>
+                  </td>
+                  <td class="py-2 px-4 border-b">
+                    <%= product.brand %>
+                  </td>
+                  <td class="py-2 px-4 border-b ">
+                    <%= product.created_at.toDateString() %>
+                  </td>
 
 
                   <td class="py-2 px-4 border-b text-center space-x-2">
                     <a href="/product/<%= product._id %>"
                       class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Edit</a>
-                    
-                    <a href="/trash/<%=product._id %>" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Delete</a>
-                  </td>
-              </tr>
-              <% } ) %>
 
-                <!-- Populate dynamically with backend data -->
+                    <a href="/trash/<%=product._id %>"
+                      class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Delete</a>
+                  </td>
+                </tr>
+                <% } ) %>
+
+                  <!-- Populate dynamically with backend data -->
             </tbody>
           </table>
         </div>
@@ -131,4 +161,7 @@
 
 </body>
 
+<script>
+ // document.getElementById('live').adde
+</script>
 </html>

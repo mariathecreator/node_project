@@ -11,6 +11,7 @@ const port = 3000;
 
 app.set('view engine', 'ejs')
 
+
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
@@ -39,6 +40,7 @@ app.use(session({
 
 app.use(route)
 app.use(productroute)
+app.use('/uploads',express.static('uploads'))
 
 app.use((req,res,next)=>{
     res.locals.message=req.session.message;

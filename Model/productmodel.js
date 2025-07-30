@@ -21,9 +21,9 @@ const productschema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    Description: {
+    description: {
         type: String,
-        required: false
+       required:true
     },
     image: String
 })
@@ -37,7 +37,7 @@ const CategorySchema = new mongoose.Schema({
     },
     Description: {
         type: String,
-        required: false
+        required: true
     }
 })
 

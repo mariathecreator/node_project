@@ -17,7 +17,13 @@ const userschema = new mongoose.Schema({
     role:{
         type:Boolean,
         default:false
-    }
+    },
+    status:{
+        type:Boolean,
+        default:true
+    },
+    lastlogin: Date,
+    lastlogout:Date
 })
 
 const user = new mongoose.model('users', userschema);

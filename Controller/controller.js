@@ -4,7 +4,7 @@ import { product } from "../Model/productmodel.js";
 import bcrypt from "bcrypt"
 
 const home = async (req, res) => {
-    return res.render('home')
+    res.render('home')
 }
 
 const signup = async (req, res) => {
@@ -22,35 +22,28 @@ const productadd = async (req, res) => {
 }
 
 const update = async (req, res) => {
-    try{
+    try {
         const edit = await user.findById(req.params.id)
         res.render("userupdate", { user: edit })
 
     }
-catch(err){
-    console.log(err);
-    
-}
+    catch (err) {
+        console.log(err);
+
+    }
 }
 
 const deletuser = async (req, res) => {
     const dat = req.params.id
     await user.findByIdAndDelete(dat)
-   // res.redirect('/dashboard')
+    // res.redirect('/dashboard')
 }
 
 const dash = async (req, res) => {
     const dis = await user.find()
     const dos = await product.find()
-    res.render("dashboard", { dis,dos })
+    res.render("dashboard", { dis, dos })
 }
-
-export const logout = (req, res) => {
-    req.session.destroy(() => {
-        res.redirect('/');
-    })
-}
-
 
 
 
@@ -80,18 +73,18 @@ const userinsert = async (req, res) => {
 
 
 const updateuser = async (req, res) => {
-    try{
+    try {
 
         const { name, email, role } = req.body
-        const updte = await user.findByIdAndUpdate(req.params.id, { name, email,role },{new:true})
+        const updte = await user.findByIdAndUpdate(req.params.id, { name, email, role }, { new: true })
         res.redirect('/dashboard')
-       
+
         console.log(req.body);
     }
-catch(err){
-    console.log(err);
-    
-}
+    catch (err) {
+        console.log(err);
+
+    }
 }
 
 const loginuser = async (req, res) => {
@@ -111,21 +104,44 @@ const loginuser = async (req, res) => {
         if (!see) {
             return res.send('incorrect password')
         }
+        if(check.status==false){
+            return res.send("your  account is been disabled by the admin ")
+        }
         if (check.role == false) {
-           return res.send("bfhdg")
-         // return  res.redirect('/home')
+            //await user.findByIdAndUpdate(check._id,{lastlogin:Date.now})
+            //return res.send("only admin can access the dashboard")
+            req.session.user = check
+            await user.findByIdAndUpdate(check._id,{lastlogin:new Date()})
+
+            return  res.redirect('/home')
         }
         req.session.user = check
+         await user.findByIdAndUpdate(check._id,{lastlogin:new Date()})
         res.redirect("/dashboard")
-
     }
     catch (err) {
-        console.log("hiiiii")
+        console.log(err)
     }
 }
 
+export const logout = async(req, res) => {
+    if(req.session.user){
+         await user.findByIdAndUpdate(req.session.user._id,{lastlogout:new Date()})
+    }
+    req.session.destroy(() => {
+        res.redirect('/');
+    })
+}
 
 
+export const userenable=async(req,res)=>{
+    await user.findByIdAndUpdate(req.params.id,{status:true})
+    res.redirect("/dashboard")
+}
+export const userdisable=async(req,res)=>{
+    await user.findByIdAndUpdate(req.params.id,{status:false})
+    res.redirect("/dashboard")
+}
 export { login, signup, dash, productadd, home, usermanage, update }
 export { register, userinsert, loginuser, updateuser, deletuser }
 

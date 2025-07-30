@@ -40,7 +40,14 @@
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value="<%= product.description %>">
       </div>
-
+      
+      <div class="flex flex-col items-center space-y-2">
+  <label class="text-sm text-gray-500">Current Product Image</label>
+  <img src="/uploads/<%= product.image %>" 
+       alt="Product Image"
+       class="w-40 h-40 object-cover rounded-xl border shadow-md hover:scale-105 transition-transform duration-300" />
+</div>
+      
       <div class="mb-6">
         <label for="image" class="block text-gray-700 text-sm font-bold mb-1">Upload Image (optional):</label>
         <input type="file" id="image" name="image"
